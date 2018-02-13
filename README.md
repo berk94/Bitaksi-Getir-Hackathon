@@ -4,8 +4,9 @@ The backend task for hackathon entry.
 # Documentation
 The app is deployed on a Heroku server here: [https://berk-bitaksi-getir-backend.herokuapp.com](https://berk-bitaksi-getir-backend.herokuapp.com)
 
-### Endpoint (/searchRecord)
-#### Sample Request
+### Endpoints
+- #### (/searchRecord) [POST]
+##### Sample Request
 ```
 {
       "startDate" : "2016-01-26",
@@ -14,7 +15,7 @@ The app is deployed on a Heroku server here: [https://berk-bitaksi-getir-backend
       "maxCount" : 3000
 }
 ```
-#### Sample Response
+##### Sample Response
 ```
 {
     "code": 0,
