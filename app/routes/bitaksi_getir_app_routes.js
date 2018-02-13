@@ -39,8 +39,8 @@ module.exports = function(app,client){
     // check if the input is in the desired format.
     // if a parameter is not entered, it is not considered in filtering.
     // if no parameters are given, return all records in the collection.
-    var match_date={createdAt:{}};
-    var match_count={totalCount:{}};
+    var match_date={};
+    var match_count={};
 
     if (req.body != undefined) {
       // the record should be created at a time later than or equal to startDate and before or equal to endDate
@@ -49,6 +49,7 @@ module.exports = function(app,client){
           errors.push({'startDate': 'Format should be YYYY-MM-DD.'});
         }
         else {
+          match_date['createdAt']={};
           match_date['createdAt']['$gte']=new Date(req.body['startDate']);
         }
       }
@@ -57,6 +58,7 @@ module.exports = function(app,client){
           errors.push({'endDate': 'Format should be YYYY-MM-DD.'});
         }
         else {
+          if (! 'createdAt' in match_date) match_date['createdAt']={};
           match_date['createdAt']['$lte']=new Date(req.body['endDate']);
         }
       }
@@ -66,7 +68,8 @@ module.exports = function(app,client){
           errors.push({'minCount': 'Type should be a number.'});
         }
         else {
-          match_count['totalCount']['$gte']= parseInt(req.body['minCount']);
+          match_count['totalCount']={};
+          match_count['totalCount']['$gte']=parseInt(req.body['minCount']);
         }
       }
       if (req.body.maxCount != undefined) {
@@ -74,7 +77,8 @@ module.exports = function(app,client){
           errors.push({'maxCount': 'Type should be a number.'});
         }
         else {
-          match_count['totalCount']['$lte']= parseInt(req.body['maxCount']);
+          if (! 'totalCount' in match_count) match_count['totalCount']={};
+          match_count['totalCount']['$lte']=parseInt(req.body['maxCount']);
         }
       }
     }
@@ -82,7 +86,10 @@ module.exports = function(app,client){
       res.status(400).send({'msg':'Request body is undefined.'});
       res.end();
     }
-
+    console.log("MATCH DATE: ");
+    console.log(match_date);
+    console.log("MATCH COUNT: ");
+    console.log(match_count);
     if (errors.length != 0) {
       res.status(400).send({'errors':errors});
       res.end();
