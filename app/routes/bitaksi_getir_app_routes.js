@@ -12,7 +12,7 @@ var request_response_dict = {};
 var time_sent_request_dict = {};
 
 module.exports = function(app,client){
-  app.post('/searchRecords', (req, res) => {
+  app.post('/searchRecord', (req, res) => {
     console.log("====================");
     console.log("Request - Response dictionary before new request");
     console.log(request_response_dict);
