@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient; // using Mongo as the databa
 const bodyParser = require('body-parser'); // for handling json
 
 const app = express();
-const port = 3000;
+const DEFAULT_PORT=3000;
 const db = require('./config/db');
 
 // Use bodyParser to parse requests in different formats
@@ -31,8 +31,9 @@ MongoClient.connect(db.url, (err, client) => {
 
   require('./app/routes')(app, client);
 
-  app.listen(port, () => {
-    console.log("Listening to port " + port + "...");
+  var PORT = process.env.PORT || DEFAULT_PORT
+  app.listen(PORT, () => {
+    console.log("Listening to port " + PORT + "...");
   });
 
 })
